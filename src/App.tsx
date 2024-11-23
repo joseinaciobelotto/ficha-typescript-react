@@ -3,6 +3,7 @@ import Home from './pages/home';
 import Restaurant from './pages/restaurant';
 import Food from './pages/food';
 import Profile from './pages/profile';
+import Login from './pages/login';
 import './index.css'; 
 
 const App = () => {
@@ -10,9 +11,10 @@ const App = () => {
         <Router>
             <div>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/restaurant" element={<Restaurant />} />
-                    <Route path="/food" element={<Food />} />
+                    <Route path="/" element={<Login/>} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/restaurant/:id" element={<Restaurant />} />
+                    <Route path="/food/:id" element={<Food />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>

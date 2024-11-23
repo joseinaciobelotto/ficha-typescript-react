@@ -40,9 +40,9 @@ export default function Component() {
                             <span className="font-bold text-xl text-white">Cimarmitas</span>
                         </div>
                         <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-black shadow-md">
-                        <Link to={"/profile"}>
-                            <User className="h-5 w-5" />
-                        </Link>
+                            <Link to={"/profile"}>
+                                <User className="h-5 w-5" />
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -75,9 +75,10 @@ export default function Component() {
                             </CardContent>
                             <CardFooter className="flex justify-between mt-6">
                                 <span className="text-gray-600"></span>
-                                <Link to={"/restaurant"}>
-                                <Button>Ver restaurante</Button>
+                                <Link to={`/restaurant/${restaurant.id}`}>
+                                    <Button>Ver restaurante</Button>
                                 </Link>
+
                             </CardFooter>
                         </Card>
                     ))}

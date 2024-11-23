@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Star, ArrowLeft, Clock, Truck, Minus, Plus, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 
 interface FoodItem {
     id: string;
@@ -18,22 +19,23 @@ interface FoodItem {
 }
 
 export default function Food() {
+    const { id } = useParams<{ id: string }>();
     const [quantity, setQuantity] = useState(1);
     const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
-
+  
     useEffect(() => {
-        const fetchFoodItem = async () => {
-            try {
-                const response = await fetch('https://apifakedelivery.vercel.app/foods/1');
-                const data: FoodItem = await response.json();
-                setFoodItem(data);
-            } catch (error) {
-                console.error("Error fetching food item:", error);
-            }
-        };
-
-        fetchFoodItem();
-    }, []);
+      const fetchFoodItem = async () => {
+        try {
+          const response = await fetch(`https://apifakedelivery.vercel.app/foods/${id}`);
+          const data: FoodItem = await response.json();
+          setFoodItem(data);
+        } catch (error) {
+          console.error("Error fetching food item:", error);
+        }
+      };
+  
+      fetchFoodItem();
+    }, [id]);
 
     const incrementQuantity = () => setQuantity(prev => prev + 1);
     const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));

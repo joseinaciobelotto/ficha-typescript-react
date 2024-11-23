@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star, ArrowLeft, Clock, Truck, User } from 'lucide-react';
@@ -26,14 +27,14 @@ interface MenuItem {
 }
 
 export default function Restaurant() {
+  const { id } = useParams<{ id: string }>(); // Captura o ID da URL
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   useEffect(() => {
-
     const fetchRestaurantData = async () => {
       try {
-        const response = await axios.get(`https://apifakedelivery.vercel.app/restaurants/1`);
+        const response = await axios.get(`https://apifakedelivery.vercel.app/restaurants/${id}`);
         setRestaurant(response.data);
       } catch (error) {
         console.error("Error fetching restaurant data:", error);
@@ -43,7 +44,7 @@ export default function Restaurant() {
     const fetchMenuItems = async () => {
       try {
         const response = await axios.get(`https://apifakedelivery.vercel.app/foods`);
-        setMenuItems(response.data);
+        setMenuItems(response.data.filter((item: { restaurantId: string | undefined; }) => item.restaurantId === id));
       } catch (error) {
         console.error("Error fetching menu items:", error);
       }
@@ -51,8 +52,7 @@ export default function Restaurant() {
 
     fetchRestaurantData();
     fetchMenuItems();
-
-  }, []);
+  }, [id]); // Reexecuta o efeito quando o ID muda
 
   if (!restaurant) {
     return <div>Loading...</div>;
@@ -60,16 +60,16 @@ export default function Restaurant() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-<header className="bg-black shadow">
+      <header className="bg-black shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center">
             <Button variant="ghost" className="mr-4" onClick={() => window.history.back()}>
               <ArrowLeft className="h-6 w-6 text-white" />
             </Button>
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-black shadow-md ml-auto">
-            <Link to={"/profile"}>
-              <User className="h-5 w-5" />
-            </Link>  
+              <Link to={"/profile"}>
+                <User className="h-5 w-5" />
+              </Link>
             </div>
           </div>
         </div>
@@ -117,8 +117,8 @@ export default function Restaurant() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link to={"/food"}>
-                    <Button className="w-full">Pedir</Button>
+                <Link to={`/food/${item.id}`}>
+                  <Button className="w-full">Pedir</Button>
                 </Link>
               </CardFooter>
             </Card>
