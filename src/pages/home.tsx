@@ -5,28 +5,35 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusCircle } from "lucide-react";
+const idmestre = localStorage.getItem("userId");
 
-// Types
-interface Character {
+interface FichaJogador {
   id: string;
-  name: string;
-  class: string;
-  description: string;
-  abilities: string[];
-  attributes: {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-    wisdom: number;
-    intelligence: number;
+  nome: string;
+  classe: string;
+  descricao: string;
+  atributo: {
+    forca: number; 
+    destreza: number; 
+    constituicao: number; 
+    inteligencia: number; 
+    sabedoria: number; 
+    carisma: number; 
+  };
+  habilidades: string[];
+  mestre: {
+    idmestre: number;
+  };
+  mesa: {
+    idmesa: number;
   };
 }
+
 
 interface Mestre {
   idmestre: number;
   nome: string;
-  senha: string; // Ajuste conforme necessário
+  senha: string;
 }
 
 interface RPGTable {
@@ -35,10 +42,8 @@ interface RPGTable {
   descricao: string;
   tema: string;
   mestre: Mestre;
-  characters?: Character[]; // Adicionei a interrogação para refletir que pode não vir na resposta
 }
 
-// Components
 const AnimatedBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -66,7 +71,7 @@ const AnimatedBackground: React.FC = () => {
 const CreateFichaModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-  idmesa: number | null;
+  idmesa: number | null;  // Recebe o idmesa da mesa onde a ficha será criada
   onCreate: () => void;
 }> = ({ isOpen, onClose, idmesa, onCreate }) => {
   const [nome, setNome] = useState("");
@@ -83,13 +88,19 @@ const CreateFichaModal: React.FC<{
 
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/Ficha`, {
-        idmesa,
         nome,
         classe,
         descricao,
-        atributos,
+        atributo: atributos,
         habilidades,
+        mestre: {
+          idmestre,
+        },
+        mesa: {
+          idmesa,  // Usando o idmesa recebido como parâmetro
+        },
       });
+
       onCreate();
       onClose();
     } catch (error) {
@@ -136,16 +147,11 @@ const CreateFichaModal: React.FC<{
   );
 };
 
+
 const RPGTableComponent: React.FC<{
   table: RPGTable;
-  onCharacterClick: (character: Character) => void;
-}> = ({ table, onCharacterClick }) => {
+}> = ({ table }) => {
   const [isFichaModalOpen, setIsFichaModalOpen] = useState(false);
-
-  const handleCreateFicha = () => {
-    setIsFichaModalOpen(false);
-    // Aqui você pode implementar lógica adicional, como refazer a busca por mesas e fichas
-  };
 
   return (
     <Card className="mb-6 bg-opacity-80 backdrop-blur-sm bg-gray-800 border-gray-700 text-white">
@@ -158,43 +164,21 @@ const RPGTableComponent: React.FC<{
           Criar Ficha
         </Button>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        {table.characters?.map((character) => (
-          <CharacterCard
-            key={character.id}
-            character={character}
-            onClick={() => onCharacterClick(character)}
-          />
-        )) || <p className="text-gray-400">Sem personagens nesta mesa.</p>}
+      <CardContent className="p-4">
+        <p className="text-gray-400">{table.descricao}</p>
       </CardContent>
+      
+      {/* Passando o idmesa corretamente para o modal */}
       <CreateFichaModal
         isOpen={isFichaModalOpen}
         onClose={() => setIsFichaModalOpen(false)}
         idmesa={table.idmesa}
-        onCreate={handleCreateFicha}
+        onCreate={() => setIsFichaModalOpen(false)}
       />
     </Card>
   );
 };
 
-
-const CharacterCard: React.FC<{ character: Character; onClick: () => void }> = ({
-  character,
-  onClick,
-}) => {
-  return (
-    <Card
-      className="cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 bg-opacity-80 backdrop-blur-sm bg-gradient-to-br from-gray-800 to-gray-900 text-white border border-gray-700"
-      onClick={onClick}
-    >
-      <CardContent className="p-4">
-        <h3 className="text-lg font-bold mb-2 text-cyan-300">{character.name}</h3>
-        <p className="text-sm text-gray-300 mb-2">{character.class}</p>
-        <p className="text-xs text-gray-400 truncate">{character.description}</p>
-      </CardContent>
-    </Card>
-  );
-};
 
 const CreateTableModal: React.FC<{
   isOpen: boolean;
@@ -204,15 +188,16 @@ const CreateTableModal: React.FC<{
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [tema, setTema] = useState("");
-  const [idmestre, setMestre] = useState<number | "">("");
 
   const handleCreate = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/Mesa`, {
-        idmestre,
         nome,
         descricao,
         tema,
+        mestre: {
+          idmestre: idmestre,
+        },
       });
       onCreate();
       onClose();
@@ -250,16 +235,14 @@ const CreateTableModal: React.FC<{
   );
 };
 
-// Main Component
 export default function RPGLandingPage() {
   const [tables, setTables] = useState<RPGTable[]>([]);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-
-  const fetchTablesAndCharacters = async () => {
+  console.log(idmestre + "AAAAAAAAA")
+  const fetchTables = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/Mesa/mestre?idmestre=1`);
+      const response = await axios.get(`${apiUrl}/Mesa/mestre?idmestre=${idmestre}`);
       setTables(response.data);
     } catch (error) {
       console.error("Erro ao buscar mesas:", error);
@@ -267,7 +250,7 @@ export default function RPGLandingPage() {
   };
 
   useEffect(() => {
-    fetchTablesAndCharacters();
+    fetchTables();
   }, []);
 
   return (
@@ -286,17 +269,13 @@ export default function RPGLandingPage() {
           </Button>
           <div className="space-y-8">
             {tables.map((table) => (
-              <RPGTableComponent
-                key={table.idmesa}
-                table={table}
-                onCharacterClick={setSelectedCharacter}
-              />
+              <RPGTableComponent key={table.idmesa} table={table} />
             ))}
           </div>
           <CreateTableModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            onCreate={fetchTablesAndCharacters}
+            onCreate={fetchTables}
           />
         </div>
       </div>

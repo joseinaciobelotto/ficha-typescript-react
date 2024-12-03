@@ -20,6 +20,10 @@ const Login = () => {
     e.preventDefault();
     setError('');
 
+
+
+
+
     try {
       console.log(password, nome);
       console.log("AAAAAAAAAAAAA")
@@ -31,11 +35,14 @@ const Login = () => {
       if (response.status !== 200) {
         throw new Error('Erro no login');
       }
+
       
+    
       console.log(response.data)
       // Manipular a resposta, por exemplo, salvar o ID retornado no localStorage
-      const { idusuario } = response.data;
-      localStorage.setItem('userId', idusuario);
+      const { idmestre } = response.data;
+      console.log(response.data)
+      localStorage.setItem('userId', idmestre);
   
       navigate('/home');
     } catch (error) {
