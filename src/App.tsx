@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import Restaurant from './pages/restaurant';
-import Food from './pages/food';
-import Profile from './pages/profile';
+import RPGLandingPage from './pages/home';
 import Login from './pages/login';
+import Cadastro from './pages/cadastro';
 import './index.css'; 
 
 const App = () => {
@@ -12,10 +10,8 @@ const App = () => {
             <div>
                 <Routes>
                     <Route path="/" element={<Login/>} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/restaurant/:id" element={<Restaurant />} />
-                    <Route path="/food/:id" element={<Food />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/home" element={<RPGLandingPage />} />
+                    <Route path="/cadastro" element={<Cadastro />} />
                 </Routes>
             </div>
         </Router>

@@ -248,7 +248,7 @@ export default function RPGLandingPage() {
       <div className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-5xl font-bold text-center mb-12 text-cyan-300 drop-shadow-lg">
-            RPG Aventuras Épicas
+            TABLES & FICHAS
           </h1>
           <p className="text-center text-xl mb-12 text-gray-300 max-w-3xl mx-auto">
             Embarque em jornadas fantásticas, forje alianças lendárias e torne-se um herói em nosso mundo de RPG imersivo.
