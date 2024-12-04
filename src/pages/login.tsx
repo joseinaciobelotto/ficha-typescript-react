@@ -37,13 +37,12 @@ const Login = () => {
       }
 
       
-    
+      
       console.log(response.data)
       // Manipular a resposta, por exemplo, salvar o ID retornado no localStorage
       const { idmestre } = response.data;
       console.log(response.data)
-      localStorage.setItem('userId', idmestre);
-  
+      const oi = localStorage.setItem('userId', idmestre);
       navigate('/home');
     } catch (error) {
       setError('Nome ou senha inválidos.');
