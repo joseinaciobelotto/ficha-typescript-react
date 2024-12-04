@@ -526,7 +526,7 @@ export default function RPGLandingPage() {
       fetchTables();
     }, 10000)
     return () => clearTimeout(timer);
-  }, []);
+  }, [idmestre]);
 
   const handleBackgroundChange = (bg: string) => {
     setBackground(bg);

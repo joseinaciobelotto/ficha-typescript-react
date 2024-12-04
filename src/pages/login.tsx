@@ -20,10 +20,6 @@ const Login = () => {
     e.preventDefault();
     setError('');
 
-
-
-
-
     try {
       console.log(password, nome);
       console.log("AAAAAAAAAAAAA")
@@ -31,13 +27,11 @@ const Login = () => {
         nome,
         senha: password,
       });
-  
+
       if (response.status !== 200) {
         throw new Error('Erro no login');
       }
 
-      
-      
       console.log(response.data)
       // Manipular a resposta, por exemplo, salvar o ID retornado no localStorage
       const { idmestre } = response.data;
@@ -48,6 +42,10 @@ const Login = () => {
     } catch (error) {
       setError('Nome ou senha inválidos.');
     }
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate('/cadastro');
   };
 
   return (
@@ -95,12 +93,12 @@ const Login = () => {
         )}
         <p className="mt-6 text-sm text-center text-gray-400">
           Não tem uma conta?{' '}
-          <a
-            href="/cadastro"
+          <button
+            onClick={handleRegisterRedirect}
             className="text-gray-300 hover:text-gray-100"
           >
             Registre-se
-          </a>
+          </button>
         </p>
       </div>
     </div>
