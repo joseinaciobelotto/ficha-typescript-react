@@ -416,6 +416,7 @@ const CreateTableModal: React.FC<{
   isOpen: boolean
   onClose: () => void
   onCreate: () => void
+  isOpen: number
 }> = ({ isOpen, onClose, onCreate, indenti }) => {
   const [nome, setNome] = useState("")
   const [descricao, setDescricao] = useState("")
@@ -517,7 +518,6 @@ export default function RPGLandingPage() {
 
   useEffect(() => {
     const idmestreFromStorage = localStorage.getItem("userId");
-    console.log(idmestreFromStorage);
     setidmestre(idmestreFromStorage)
     const timer = setTimeout(() => {
       fetchTables();
