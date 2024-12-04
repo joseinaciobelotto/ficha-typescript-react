@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const idmestre = localStorage.getItem("userId")
 
-interface RPGTable {
+interface RPGTable { 
   idmesa: number
   nome: string
   descricao: string
