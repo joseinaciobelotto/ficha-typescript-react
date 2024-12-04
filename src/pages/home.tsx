@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input"
 import { PlusCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
+let idmestre = localStorage.getItem("userId")
 
 interface RPGTable { 
   idmesa: number
@@ -475,6 +476,7 @@ const CreateTableModal: React.FC<{
 }
 
 export default function RPGLandingPage() {
+  idmestre = localStorage.getItem("userId")
   const idmestre = localStorage.getItem("userId")
   const [tables, setTables] = useState<RPGTable[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
