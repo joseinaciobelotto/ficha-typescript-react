@@ -483,9 +483,6 @@ export default function RPGLandingPage() {
   const [selectedBackground, setSelectedBackground] = useState("black"); // Novo estado
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  if (!idmestre){
-    navigate("/");
-  }
   const fetchTables = async () => {
     try {
       const response = await axios.get(`${apiUrl}/Mesa/mestre?idmestre=${idmestre}`);
