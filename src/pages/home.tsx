@@ -522,8 +522,9 @@ export default function RPGLandingPage() {
       if (idmestreFromStorage) {
         setidmestre(parseInt(idmestreFromStorage, 10));
       }
+      console.log("AAAAAA" + idmestre )
       fetchTables();
-    }, 5000)
+    }, 10000)
     return () => clearTimeout(timer);
   }, []);
 
