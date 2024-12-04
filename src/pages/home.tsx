@@ -416,7 +416,7 @@ const CreateTableModal: React.FC<{
   isOpen: boolean
   onClose: () => void
   onCreate: () => void
-  isOpen: number
+  indenti: number
 }> = ({ isOpen, onClose, onCreate, indenti }) => {
   const [nome, setNome] = useState("")
   const [descricao, setDescricao] = useState("")
