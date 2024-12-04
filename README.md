@@ -1,3 +1,6 @@
+npm run dev para executar o projeto
+é necessário colocar a api no .env na variavel: VITE_API_URL=
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
