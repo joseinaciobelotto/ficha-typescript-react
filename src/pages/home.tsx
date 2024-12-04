@@ -305,7 +305,7 @@ const RPGTableComponent: React.FC<{ table: RPGTable; onEditComplete: () => void 
   }, [table.idmesa])
 
   return (
-    <Card className="mb-14 bg-gray-900 border-gray-800 text-white overflow rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+    <Card className="mb-14 bg-gray-900 border-gray-800 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
       <CardHeader className="border-b border-gray-800 flex flex-row items-center justify-between bg-gradient-to-r from-gray-900 to-gray-800">
         <CardTitle className="text-2xl font-bold text-white">{table.nome}</CardTitle>
         <div className="flex gap-4">
@@ -361,7 +361,7 @@ const RPGTableComponent: React.FC<{ table: RPGTable; onEditComplete: () => void 
 
       {isEditModalOpen && (
         <Dialog>
-          <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-80 z-50 ">
+          <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-80 z-50">
             <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-96 z-50">
               <h2 className="text-2xl font-bold mb-4">Editar Mesa</h2>
               <div className="mb-4">
@@ -518,14 +518,11 @@ export default function RPGLandingPage() {
 
   useEffect(() => {
     const idmestreFromStorage = localStorage.getItem("userId");
-    const timer = setTimeout(() => {
       if (idmestreFromStorage) {
         setidmestre(parseInt(idmestreFromStorage, 10));
       }
-      console.log("AAAAAA" + idmestre )
+      console.log("AAAAAA" + idmestre)
       fetchTables();
-    }, 10000)
-    return () => clearTimeout(timer);
   }, [idmestre]);
 
   const handleBackgroundChange = (bg: string) => {
@@ -557,8 +554,8 @@ export default function RPGLandingPage() {
             <Button
               onClick={() => handleBackgroundChange("black")}
               className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "black"
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-1000 text-gray-300"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-1000 text-gray-300"
                 }`}
             >
               Preto
@@ -566,8 +563,8 @@ export default function RPGLandingPage() {
             <Button
               onClick={() => handleBackgroundChange("/public/sci-fi-fantasy-landscape.jpg")}
               className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "/public/sci-fi-fantasy-landscape.jpg"
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-1000 text-gray-300"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-1000 text-gray-300"
                 }`}
             >
               Sci-Fi Landscape
@@ -577,8 +574,8 @@ export default function RPGLandingPage() {
                 handleBackgroundChange("/public/challenger-stands-front-spooky-castle-illustration.jpg")
               }
               className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "/public/challenger-stands-front-spooky-castle-illustration.jpg"
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-1000 text-gray-300"
+                ? "bg-gray-900 text-white"
+                : "bg-gray-1000 text-gray-300"
                 }`}
             >
               Castelo Assustador
