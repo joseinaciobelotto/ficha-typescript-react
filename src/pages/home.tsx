@@ -520,7 +520,7 @@ export default function RPGLandingPage() {
 
   useEffect(() => {
     const idmestreFromStorage = localStorage.getItem("userId");
-
+    console.log(idmestreFromStorage);
     const timer = setTimeout(() => {
       fetchTables();
     }, 4000);
