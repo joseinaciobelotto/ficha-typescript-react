@@ -518,10 +518,12 @@ export default function RPGLandingPage() {
 
   useEffect(() => {
     const idmestreFromStorage = localStorage.getItem("userId");
-    setidmestre(idmestreFromStorage)
     const timer = setTimeout(() => {
+      if(idmestreFromStorage){
+        setidmestre(idmestreFromStorage);
+      }
       fetchTables();
-    }, 4000);
+    }, 5000)
     return () => clearTimeout(timer);
   }, []);
 
