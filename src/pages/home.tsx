@@ -532,13 +532,13 @@ export default function RPGLandingPage() {
   return (
     <div className="min-h-screen text-white">
       <Button
-        onClick={() => excluirUser(true)}
+        onClick={() => excluirUser()}
         className=" bgtext-white hover:bg-red-700 px-6 py-3 shadow-lg transition-all duration-300 transform hover:scale-105"
       >
         Excluir Conta
       </Button>
       <Button
-        onClick={() => exitAccount(true)}
+        onClick={() => exitAccount()}
         className=" bgtext-white hover:bg-yellow-700 px-6 py-3 shadow-lg transition-all duration-300 transform hover:scale-105"
       >
         Sair da Conta
