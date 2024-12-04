@@ -8,13 +8,15 @@ import { PlusCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 
 const idmestre = localStorage.getItem("userId")
-//
+
 interface RPGTable { 
   idmesa: number
   nome: string
   descricao: string
   tema: string
-  mestre: Mestre
+  mestre: {
+    idmestre: number
+  }
 }
 
 interface FichaJogador {
