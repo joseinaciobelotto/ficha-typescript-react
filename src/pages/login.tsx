@@ -43,6 +43,7 @@ const Login = () => {
       const { idmestre } = response.data;
       console.log(response.data)
       const oi = localStorage.setItem('userId', idmestre);
+      console.log(oi);
       navigate('/home');
     } catch (error) {
       setError('Nome ou senha inválidos.');

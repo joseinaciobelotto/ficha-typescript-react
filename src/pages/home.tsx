@@ -4,16 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { PlusCircle, Users, Book, Swords, Star } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 
 const idmestre = localStorage.getItem("userId")
-
+//
 interface RPGTable { 
   idmesa: number
   nome: string
   descricao: string
   tema: string
+  mestre: Mestre
 }
 
 interface FichaJogador {
@@ -158,6 +159,7 @@ const FichaModal: React.FC<{
           idmesa: ficha.mesa.idmesa
         }
       })
+      console.log(response)
       alert("Editado com sucesso!");
       onClose();
       onFichaDeleted();
@@ -278,6 +280,7 @@ const RPGTableComponent: React.FC<{ table: RPGTable; onEditComplete: () => void 
           idmestre: table.mestre.idmestre,
         },
       })
+      console.log(response);
       alert("Edição da mesa realizada com sucesso!")
       setIsEditModalOpen(false)
       onEditComplete()
@@ -289,6 +292,7 @@ const RPGTableComponent: React.FC<{ table: RPGTable; onEditComplete: () => void 
   const excluirMesa = async () => {
     try {
       const response = await axios.delete(`${import.meta.env.VITE_API_URL}/Mesa?id=${table.idmesa}`)
+      console.log(response)
       alert("Mesa excluída! ")
       setIsEditModalOpen(false)
       onEditComplete()
@@ -504,6 +508,7 @@ export default function RPGLandingPage() {
       }
       console.log("Excluindo conta...");
       const response = await axios.delete(`${apiUrl}/Mestre?id=${idmestre}`);
+      console.log(response)
       alert("Conta excluída com sucesso.");
       localStorage.removeItem("userId");
       navigate("/");
