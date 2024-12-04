@@ -6,9 +6,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input"
 import { PlusCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
+
+
 let idmestre = localStorage.getItem("userId")
 
-interface RPGTable { 
+interface RPGTable {
   idmesa: number
   nome: string
   descricao: string
@@ -31,9 +33,8 @@ interface FichaJogador {
 
 const AnimatedBackground: React.FC<{ background: string }> = ({ background }) => (
   <div
-    className={`fixed inset-0 -z-10 overflow-hidden ${
-      background === "black" ? "bg-black" : ""
-    }`}
+    className={`fixed inset-0 -z-10 overflow-hidden ${background === "black" ? "bg-black" : ""
+      }`}
     style={{
       backgroundImage:
         background !== "black" ? `url(${background})` : undefined,
@@ -272,7 +273,7 @@ const RPGTableComponent: React.FC<{ table: RPGTable; onEditComplete: () => void 
 
   const editarMesa = async () => {
     try {
-      
+
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/Mesa`, {
         idmesa: table.idmesa,
         nome: newTableName,
@@ -476,7 +477,6 @@ const CreateTableModal: React.FC<{
 }
 
 export default function RPGLandingPage() {
-  idmestre = localStorage.getItem("userId")
   const idmestre = localStorage.getItem("userId")
   const [tables, setTables] = useState<RPGTable[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -519,7 +519,12 @@ export default function RPGLandingPage() {
   };
 
   useEffect(() => {
-    fetchTables();
+    const idmestreFromStorage = localStorage.getItem("userId");
+
+    const timer = setTimeout(() => {
+      fetchTables();
+    }, 4000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleBackgroundChange = (bg: string) => {
@@ -550,21 +555,19 @@ export default function RPGLandingPage() {
           <div className="flex justify-center items-center mb-8 space-x-4">
             <Button
               onClick={() => handleBackgroundChange("black")}
-              className={`px-4 py-2 rounded shadow transition-all ${
-                selectedBackground === "black" 
-                ? "bg-gray-900 text-white" 
-                : "bg-gray-1000 text-gray-300"
-              }`}
+              className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "black"
+                  ? "bg-gray-900 text-white"
+                  : "bg-gray-1000 text-gray-300"
+                }`}
             >
               Preto
             </Button>
             <Button
               onClick={() => handleBackgroundChange("/public/sci-fi-fantasy-landscape.jpg")}
-              className={`px-4 py-2 rounded shadow transition-all ${
-                selectedBackground === "/public/sci-fi-fantasy-landscape.jpg"
+              className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "/public/sci-fi-fantasy-landscape.jpg"
                   ? "bg-gray-900 text-white"
                   : "bg-gray-1000 text-gray-300"
-              }`}
+                }`}
             >
               Sci-Fi Landscape
             </Button>
@@ -572,11 +575,10 @@ export default function RPGLandingPage() {
               onClick={() =>
                 handleBackgroundChange("/public/challenger-stands-front-spooky-castle-illustration.jpg")
               }
-              className={`px-4 py-2 rounded shadow transition-all ${
-                selectedBackground === "/public/challenger-stands-front-spooky-castle-illustration.jpg"
+              className={`px-4 py-2 rounded shadow transition-all ${selectedBackground === "/public/challenger-stands-front-spooky-castle-illustration.jpg"
                   ? "bg-gray-900 text-white"
                   : "bg-gray-1000 text-gray-300"
-              }`}
+                }`}
             >
               Castelo Assustador
             </Button>
