@@ -7,9 +7,6 @@ import { Input } from "@/components/ui/input"
 import { PlusCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 
-
-let idmestre = localStorage.getItem("userId")
-
 interface RPGTable {
   idmesa: number
   nome: string
@@ -419,20 +416,20 @@ const CreateTableModal: React.FC<{
   isOpen: boolean
   onClose: () => void
   onCreate: () => void
-}> = ({ isOpen, onClose, onCreate }) => {
+}> = ({ isOpen, onClose, onCreate, indenti }) => {
   const [nome, setNome] = useState("")
   const [descricao, setDescricao] = useState("")
   const [tema, setTema] = useState("")
 
   const handleCreate = async () => {
     try {
-      console.log(idmestre, nome, descricao, tema)
+      console.log(indenti, nome, descricao, tema)
       await axios.post(`${import.meta.env.VITE_API_URL}/Mesa`, {
         nome,
         descricao,
         tema,
         mestre: {
-          idmestre: idmestre,
+          idmestre: indenti,
         },
       })
       onCreate()
@@ -477,7 +474,7 @@ const CreateTableModal: React.FC<{
 }
 
 export default function RPGLandingPage() {
-  const idmestre = localStorage.getItem("userId")
+  const [idmestre, setidmestre] = useState(0);
   const [tables, setTables] = useState<RPGTable[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [background, setBackground] = useState("black");
@@ -521,6 +518,7 @@ export default function RPGLandingPage() {
   useEffect(() => {
     const idmestreFromStorage = localStorage.getItem("userId");
     console.log(idmestreFromStorage);
+    setidmestre(idmestreFromStorage)
     const timer = setTimeout(() => {
       fetchTables();
     }, 4000);
@@ -604,6 +602,7 @@ export default function RPGLandingPage() {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onCreate={fetchTables}
+            indenti={idmestre}
           />
         </div>
       </div>
